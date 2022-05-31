@@ -9,6 +9,27 @@
       }
     },
     "parameters": {
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "VNet",
+        "metadata": {
+          "description": "VNet name"
+        }
+      },
+      "subnetName": {
+        "type": "string",
+        "defaultValue": "Subnet1",
+        "metadata": {
+          "description": "Subnet 1 Name"
+        }
+      },
+      "networkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "SecGroupNet",
+      "metadata": {
+        "description": "Name of the Network Security Group"
+      }
+    },
     "vmName": {
       "type": "string",
       "defaultValue": "SimpleLinuxVm",
@@ -62,7 +83,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_B2s",
+      "defaultValue": "Standard_B1s",
       "metadata": {
         "description": "The size of the VM"
       }
@@ -120,7 +141,7 @@
             "name": "ipconfig1",
             "properties": {
               "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet1Name'))]"
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
@@ -134,9 +155,9 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+
       ]
     },
         {

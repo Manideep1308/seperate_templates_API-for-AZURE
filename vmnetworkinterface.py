@@ -9,15 +9,18 @@ app = Flask(__name__)
 
 def fun():
 
+    vpcname = request.args.get('vpcname')
+    securitygroupname = request.args.get('securitygroupname')
+    subnetname = request.args.get('subnetname')
     vmname =request.args.get('vmname')
     authenticationType = request.args.get('authenticationType')
     ubuntuOSVersion = request.args.get('ubuntuOSVersion')
     vmsize = request.args.get('vmsize')
     osDiskType = request.args.get('osDiskType')
-    publicIPAddressesname = request.args.get('publicIPAddressesname')
     publicIPAllocationMethod =request.args.get('publicIPAllocationMethod')
     publicIPAddressVersion = request.args.get('publicIPAddressVersion')
     idleTimeoutInMinutes = request.args.get('idleTimeoutInMinutes')
+
     
 
 
@@ -33,7 +36,28 @@ def fun():
 '        "templateHash": "12144059695652148753"\n'
 '      }\n'
 '    },\n'
-'    "parameters": {\n'        
+'    "parameters": {\n' 
+'      "vnetName": {\n'
+'        "type": "string",\n'
+'        "defaultValue": "'+ str(vpcname)+ '",\n'
+'        "metadata": {\n'
+'          "description": "VNet name"\n'
+'        }\n'
+'      },\n'
+'      "subnetName": {\n'
+'        "type": "string",\n'
+'        "defaultValue": "' + str(subnetname) + '",\n'
+'        "metadata": {\n'
+'          "description": "Subnet 1 Name"\n'
+'        }\n'
+'      },\n'
+'      "networkSecurityGroupName": {\n'
+'      "type": "string",\n'
+'      "defaultValue": "' + str(securitygroupname) + '",\n'
+'      "metadata": {\n'
+'        "description": "Name of the Network Security Group"\n'
+'      }\n'
+'    },\n'      
 '    "vmName": {\n'
 '      "type": "string",\n'
 '      "defaultValue": "' + str(vmname) + '",\n'
@@ -124,7 +148,7 @@ def fun():
 '      "name": "[variables(''\'publicIPAddressName\''')]",\n'
 '      "location": "[parameters(''\'location\''')]",\n'
 '      "sku": {\n'
-'        "name": "' + str(publicIPAddressesname) + '"\n'
+'        "name": "Basic"\n'
 '      },\n'
 '      "properties": {\n'
 '        "publicIPAllocationMethod": "' + str(publicIPAllocationMethod) + '",\n'
@@ -146,7 +170,7 @@ def fun():
 '            "name": "ipconfig1",\n'
 '            "properties": {\n'
 '              "subnet": {\n'
-'                "id": "[resourceId(''\'Microsoft.Network/virtualNetworks/subnets\', parameters(''\'vnetName\'''), parameters(''\'subnet1Name\'''))]"\n'
+'                "id": "[resourceId(''\'Microsoft.Network/virtualNetworks/subnets\', parameters(''\'vnetName\'''), parameters(''\'subnetName\'''))]"\n'
 '              },\n'
 '              "privateIPAllocationMethod": "Dynamic",\n'
 '              "publicIPAddress": {\n'
@@ -160,9 +184,9 @@ def fun():
 '        }\n'
 '      },\n'
 '      "dependsOn": [\n'
-'        "[resourceId(''\'Microsoft.Network/networkSecurityGroups\', parameters(''\'networkSecurityGroupName\'''))]",\n'
-'        "[resourceId(''\'Microsoft.Network/publicIPAddresses\', variables(''\'publicIPAddressName\'''))]",\n'
-'        "[resourceId(''\'Microsoft.Network/virtualNetworks\', parameters(''\'vnetName\'''))]"\n'
+
+'        "[resourceId(''\'Microsoft.Network/publicIPAddresses\', variables(''\'publicIPAddressName\'''))]"\n'
+
       
 '      ]\n'
 '    },\n' 

@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+      "_generator": {
+        "name": "bicep",
+        "version": "0.5.6.12127",
+        "templateHash": "12144059695652148753"
+      }
+    },
+    "parameters": {
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "VNet",
+        "metadata": {
+          "description": "VNet name"
+        }
+      },
+      "subnetName": {
+        "type": "string",
+        "defaultValue": "Subnet2",
+        "metadata": {
+          "description": "Subnet  Name"
+        }
+      },
+      "networkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "SecGroupNet",
+      "metadata": {
+        "description": "Name of the Network Security Group"
+      }
+    },
+    "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      }
+    },
+    "variables": {
+    "publicIPAddressName": "NewIp",
+     "networkInterfaceName": "NIC2"
+     },
+    "resources": [
+        {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2016-06-01",
+      "name": "[variables('networkInterfaceName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+             }
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+        }
+      }
+    }
+  ]
+}
+
