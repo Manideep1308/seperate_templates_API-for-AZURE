@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/ip', methods=['POST'])
 
 def fun():
-    vmname =request.args.get('vmname')
+    dnslabelname = request.args.get('dnslabelname')
     publicipname = request.args.get('publicipname')
     publicIPAllocationMethod =request.args.get('publicIPAllocationMethod')
     publicIPAddressVersion = request.args.get('publicIPAddressVersion')
@@ -27,16 +27,9 @@ def fun():
 '      }\n'
 '    },\n' 
 '    "parameters": {\n' 
-'    "vmName": {\n'
-'      "type": "string",\n'
-'      "defaultValue": "' + str(vmname) + '",\n'
-'      "metadata": {\n'
-'        "description": "The name of you Virtual Machine."\n'
-'      }\n'
-'    },\n'
 '    "dnsLabelPrefix": {\n'
 '      "type": "string",\n'
-'      "defaultValue": "[toLower(format(''\'{0}-{1}\', parameters(''\'vmName\'''), uniqueString(resourceGroup().id)))]",\n'
+'      "defaultValue": "' + str(dnslabelname) + '",\n'
 '      "metadata": {\n'
 '        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."\n'
 '      }\n'
