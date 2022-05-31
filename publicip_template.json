@@ -9,7 +9,6 @@
       }
     },
     "parameters": {
-
     "dnsLabelPrefix": {
       "type": "string",
       "defaultValue": "newlycreated",

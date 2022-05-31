@@ -20,7 +20,7 @@
         "type": "string",
         "defaultValue": "Subnet2",
         "metadata": {
-          "description": "Subnet  Name"
+          "description": "Subnet 1 Name"
         }
       },
       "networkSecurityGroupName": {
