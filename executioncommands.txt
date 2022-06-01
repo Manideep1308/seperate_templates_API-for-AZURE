@@ -1,3 +1,7 @@
+Commands to refer
+Use the exact name of template(json) in deployement command
+
+ 
 1.login to portal
 
    az login
