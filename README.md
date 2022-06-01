@@ -4,9 +4,13 @@
 There are total five templates namely
 
 1.VPC template
+
 2.Security Groups template
+
 3.PublicIP address template
+
 4.Network Interface(NIC) template
+
 5.Virtual machine(VM) template
     
 NIC template will be refering the VPC, securuty group and PublicIp address
