@@ -17,9 +17,9 @@ def fun():
     ubuntuOSVersion = request.args.get('ubuntuOSVersion')
     vmsize = request.args.get('vmsize')
     osDiskType = request.args.get('osDiskType')
-    publicIPAllocationMethod =request.args.get('publicIPAllocationMethod')
-    publicIPAddressVersion = request.args.get('publicIPAddressVersion')
-    idleTimeoutInMinutes = request.args.get('idleTimeoutInMinutes')
+    publicipname = request.args.get('publicipname')
+    nicname = request.args.get('nicname')
+
 
     
 
@@ -37,27 +37,7 @@ def fun():
 '      }\n'
 '    },\n'
 '    "parameters": {\n' 
-'      "vnetName": {\n'
-'        "type": "string",\n'
-'        "defaultValue": "'+ str(vpcname)+ '",\n'
-'        "metadata": {\n'
-'          "description": "VNet name"\n'
-'        }\n'
-'      },\n'
-'      "subnetName": {\n'
-'        "type": "string",\n'
-'        "defaultValue": "' + str(subnetname) + '",\n'
-'        "metadata": {\n'
-'          "description": "Subnet 1 Name"\n'
-'        }\n'
-'      },\n'
-'      "networkSecurityGroupName": {\n'
-'      "type": "string",\n'
-'      "defaultValue": "' + str(securitygroupname) + '",\n'
-'      "metadata": {\n'
-'        "description": "Name of the Network Security Group"\n'
-'      }\n'
-'    },\n'      
+
 '    "vmName": {\n'
 '      "type": "string",\n'
 '      "defaultValue": "' + str(vmname) + '",\n'
@@ -88,13 +68,7 @@ def fun():
 '        "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."\n'
 '      }\n'
 '    },\n'
-'    "dnsLabelPrefix": {\n'
-'      "type": "string",\n'
-'      "defaultValue": "[toLower(format(''\'{0}-{1}\', parameters(''\'vmName\'''), uniqueString(resourceGroup().id)))]",\n'
-'      "metadata": {\n'
-'        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."\n'
-'      }\n'
-'    },\n'
+
 '    "ubuntuOSVersion": {\n'
 '      "type": "string",\n'
 '      "defaultValue": "' + str(ubuntuOSVersion) + '",\n'
@@ -125,8 +99,8 @@ def fun():
 '      }\n'
 '    },\n'
 '    "variables": {\n'
-'    "publicIPAddressName": "[format(''\'{0}PublicIP\', parameters(''\'vmName\'''))]",\n'
-'     "networkInterfaceName": "[format(''\'{0}NetInt\', parameters(''\'vmName\'''))]",\n'
+
+'     "networkInterfaceName": "' + str(nicname) + '",\n'
 '    "osDiskType": "' + str(osDiskType) + '",\n'
 '    "linuxConfiguration": {\n'
 '      "disablePasswordAuthentication": true,\n'
@@ -142,54 +116,6 @@ def fun():
 '  },\n'
 '    "resources": [\n'
 
-'            {\n'
-'      "type": "Microsoft.Network/publicIPAddresses",\n'   #pubicIp
-'      "apiVersion": "2016-06-01",\n'
-'      "name": "[variables(''\'publicIPAddressName\''')]",\n'
-'      "location": "[parameters(''\'location\''')]",\n'
-'      "sku": {\n'
-'        "name": "Basic"\n'
-'      },\n'
-'      "properties": {\n'
-'        "publicIPAllocationMethod": "' + str(publicIPAllocationMethod) + '",\n'
-'        "publicIPAddressVersion": "' + str(publicIPAddressVersion) + '",\n'
-'        "dnsSettings": {\n'
-'          "domainNameLabel": "[parameters(''\'dnsLabelPrefix\''')]"\n'
-'        },\n'
-'        "idleTimeoutInMinutes":' +str(idleTimeoutInMinutes) + '\n'
-'      }\n'
-'    },\n'
-'        {\n'
-'      "type": "Microsoft.Network/networkInterfaces",\n'
-'      "apiVersion": "2016-06-01",\n'
-'      "name": "[variables(''\'networkInterfaceName\''')]",\n'
-'      "location": "[parameters(''\'location\''')]",\n'
-'      "properties": {\n'
-'        "ipConfigurations": [\n'
-'          {\n'
-'            "name": "ipconfig1",\n'
-'            "properties": {\n'
-'              "subnet": {\n'
-'                "id": "[resourceId(''\'Microsoft.Network/virtualNetworks/subnets\', parameters(''\'vnetName\'''), parameters(''\'subnetName\'''))]"\n'
-'              },\n'
-'              "privateIPAllocationMethod": "Dynamic",\n'
-'              "publicIPAddress": {\n'
-'                "id": "[resourceId(''\'Microsoft.Network/publicIPAddresses\', variables(''\'publicIPAddressName\'''))]"\n'
-'             }\n'
-'            }\n'
-'          }\n'
-'        ],\n'
-'        "networkSecurityGroup": {\n'
-'          "id": "[resourceId(''\'Microsoft.Network/networkSecurityGroups\', parameters(''\'networkSecurityGroupName\'''))]"\n'
-'        }\n'
-'      },\n'
-'      "dependsOn": [\n'
-
-'        "[resourceId(''\'Microsoft.Network/publicIPAddresses\', variables(''\'publicIPAddressName\'''))]"\n'
-
-      
-'      ]\n'
-'    },\n' 
 '        {\n'
 '      "type": "Microsoft.Compute/virtualMachines",\n'      #virtualmachine
 '      "apiVersion": "2021-11-01",\n'
@@ -226,10 +152,7 @@ def fun():
 '          "adminPassword": "[parameters(''\'adminPasswordOrKey\''')]",\n'
 '          "linuxConfiguration": "[if(equals(parameters(''\'authenticationType\'''), ''\'password\'''), null(), variables(''\'linuxConfiguration\'''))]"\n'
 '        }\n'
-'       },\n'
-'        "dependsOn": [\n'
-'        "[resourceId(''\'Microsoft.Network/networkInterfaces\', variables(''\'networkInterfaceName\'''))]"\n'
-'      ]\n' 
+'       }\n'        
 '      }\n'
 '  ]\n'
 '}\n'
