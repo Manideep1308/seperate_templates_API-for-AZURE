@@ -29,7 +29,7 @@ def with_parameters():
         "   def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:\n"
         "       super().__init__(scope, construct_id, **kwargs)\n" 
         "       vpc = ec2.Vpc(\n"
-        "           self, '"  + str(vpcname)  + "',\n"
+        "           self, 'Vpc', vpc_name = '"  + str(vpcname)  + "',\n"
         "           cidr = '" + str(vpcaddress) + "',\n"
         "           max_azs=" + str(max_azs) + ",\n" 
         "           nat_gateways= " + str(nat_gateway) + ",\n"
